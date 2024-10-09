@@ -2408,7 +2408,7 @@ $(document).ready(function() {
         if (!getConfigEntry('active') || !isOnDb()) {
             return;
         }
-        overrideFonts();
+        overrideUglyFonts();
         hideProfilePictures();
         setBackgroundImage();
         setOkSound();
@@ -2435,7 +2435,7 @@ $(document).ready(function() {
         parseSummonChants();
     }
 
-    function overrideFonts()
+    function overrideUglyFonts()
     {
         var replaceUglyFonts = getConfigEntry('replaceUglyFonts');
 
@@ -2447,7 +2447,7 @@ $(document).ready(function() {
         var elements = getElementsUsingUglyFonts();
         for(var i = 0; i < elements.length; i++)
         {
-            $(elements[i]).css('font-family', "Arial");
+            $(elements[i]).css('font-family', "MatrixBook");
         }
     }
 
@@ -2457,12 +2457,14 @@ $(document).ready(function() {
         document.querySelectorAll('*').forEach(function(element) {
             var fontFamily = window.getComputedStyle(element).getPropertyValue('font-family');
 
-            if (fontFamily.includes('Arial Rounded') && element.innerText.trim() !== "") {
+            if ((fontFamily.includes('Arial Rounded') ||
+                 fontFamily.includes('Kristen ITC') ||
+                 fontFamily.includes('Andy')
+                ) && element.innerText.trim() !== "")
+            {
                 elements.push(element);
             }
-            if (fontFamily.includes('Kristen ITC') && element.innerText.trim() !== "") {
-                elements.push(element);
-            }
+
         });
 
         return elements;
