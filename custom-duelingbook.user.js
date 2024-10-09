@@ -2447,7 +2447,7 @@ $(document).ready(function() {
         var elements = getElementsUsingUglyFonts();
         for(var i = 0; i < elements.length; i++)
         {
-            $(elements[i]).css('font-family', "MatrixBook");
+            $(elements[i]).css('font-family', "Arial");
         }
     }
 
@@ -2459,7 +2459,8 @@ $(document).ready(function() {
 
             if ((fontFamily.includes('Arial Rounded') ||
                  fontFamily.includes('Kristen ITC') ||
-                 fontFamily.includes('Andy')
+                 fontFamily.includes('Andy') ||
+                 fontFamily.includes('EurostileCandySemibold')
                 ) && element.innerText.trim() !== "")
             {
                 elements.push(element);
