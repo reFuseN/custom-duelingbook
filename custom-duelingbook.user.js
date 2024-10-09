@@ -2476,7 +2476,7 @@ $(document).ready(function() {
                 fontFamily.includes('Andy Bold') ||
                 fontFamily.includes('Helvetica') ||
                 fontFamily.includes('Arial Black2') ||
-                fontFamily == 'Arial Bold' ||
+                fontFamily == 'sans serif' ||
                 fontFamily == 'Arial'
                 ) && element.innerText.trim() !== "")
             {
@@ -2484,6 +2484,15 @@ $(document).ready(function() {
             }
 
         });
+
+        elements.push(document.getElementById('profile_username_txt'));
+        elements.push(document.getElementById('logged_in'));
+        elements.push(document.getElementById('bulletin_txt'));
+        elements.push(document.getElementById('menu_btn'));
+        elements.push(document.getElementById('search'));
+
+        let inputFieldElements = document.querySelectorAll('input[type=text]'); //this appearantly only works for the deck constructor search box...
+        elements.push(inputFieldElements);
 
         return elements;
     }
