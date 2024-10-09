@@ -2447,7 +2447,7 @@ $(document).ready(function() {
         var elements = getElementsUsingUglyFonts();
         for(var i = 0; i < elements.length; i++)
         {
-            $(elements[i]).css('font-family', "Arial");
+            $(elements[i]).css('font-family', "MatrixBook");
         }
     }
 
@@ -2457,10 +2457,27 @@ $(document).ready(function() {
         document.querySelectorAll('*').forEach(function(element) {
             var fontFamily = window.getComputedStyle(element).getPropertyValue('font-family');
 
-            if ((fontFamily.includes('Arial Rounded') ||
-                 fontFamily.includes('Kristen ITC') ||
-                 fontFamily.includes('Andy') ||
-                 fontFamily.includes('EurostileCandySemibold')
+            //fonts used for the cards to be accurate:
+            //Matrix Regular Small Caps
+            //Matrix Book
+            //ITC Stone Serif Small Caps Bold
+            //ITC Stone Serif LT Italic
+            //ITC Stone Serif Semibold
+            //these shouldnt be replaced
+
+            if ((fontFamily.includes('Arial Rounded MT Bold') ||
+                fontFamily.includes('EssayCaps') ||
+                fontFamily.includes('EurostileCandySemibold') ||
+                fontFamily.includes('Kristen ITC') ||
+                fontFamily.includes('RoGSanSrfStd-Bd') ||
+                fontFamily.includes('Whitney') ||
+                fontFamily.includes('Whitney Bold') ||
+                fontFamily.includes('Andy') ||
+                fontFamily.includes('Andy Bold') ||
+                fontFamily.includes('Helvetica') ||
+                fontFamily.includes('Arial Black2') ||
+                fontFamily == 'Arial Bold' ||
+                fontFamily == 'Arial'
                 ) && element.innerText.trim() !== "")
             {
                 elements.push(element);
