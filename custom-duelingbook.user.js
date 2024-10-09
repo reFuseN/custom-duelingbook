@@ -179,6 +179,11 @@ $(document).ready(function() {
                 size: 300,
                 default: 'https://github.com/killburne/custom-duelingbook/raw/master/bad-words.txt'
             },
+            replaceUglyFonts: {
+                label: 'Replace ugly fonts',
+                type: 'checkbox',
+                default: true
+            },
             thinkEmoteUrl: {
                 label: 'Think Emote Url',
                 type: 'text',
@@ -2403,6 +2408,7 @@ $(document).ready(function() {
         if (!getConfigEntry('active') || !isOnDb()) {
             return;
         }
+        overrideFonts();
         hideProfilePictures();
         setBackgroundImage();
         setOkSound();
@@ -2429,6 +2435,38 @@ $(document).ready(function() {
         parseSummonChants();
     }
 
+    function overrideFonts()
+    {
+        var replaceUglyFonts = getConfigEntry('replaceUglyFonts');
+
+        if (!replaceUglyFonts)
+        {
+            return
+        }
+
+        var elements = getElementsUsingUglyFonts();
+        for(var i = 0; i < elements.length; i++)
+        {
+            $(elements[i]).css('font-family', "Arial");
+        }
+    }
+
+    function getElementsUsingUglyFonts() {
+        var elements = [];
+
+        document.querySelectorAll('*').forEach(function(element) {
+            var fontFamily = window.getComputedStyle(element).getPropertyValue('font-family');
+
+            if (fontFamily.includes('Arial Rounded') && element.innerText.trim() !== "") {
+                elements.push(element);
+            }
+            if (fontFamily.includes('Kristen ITC') && element.innerText.trim() !== "") {
+                elements.push(element);
+            }
+        });
+
+        return elements;
+    }
 
     let customArtworkUrls = [];
     function parseCustomArtworkUrls() {
