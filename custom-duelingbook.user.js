@@ -933,7 +933,7 @@ $(document).ready(function() {
         wrapper.style.left = 'auto';
         wrapper.style.width = '120px';
         wrapper.style['font-size'] = '20px';
-        let html = '<h2 id="macroHeadline" style="background-color: black; color: white;cursor: pointer;">Macros</h2><div id="macrosWrapper" style="position: initial; display: none;">';
+        let html = '<h2 id="macroHeadline" align="center" style="background-color: transparent; color: white;cursor: pointer; text-shadow: 2px 2px 0px #000000;">Macros</h2><div id="macrosWrapper" style="position: initial; display: none;">';
         const macros = macroTexts.split('\n');
         let isInCategory = false;
         for (const macro of macros) {
@@ -2487,9 +2487,14 @@ $(document).ready(function() {
 
         elements.push(document.getElementById('profile_username_txt'));
         elements.push(document.getElementById('logged_in'));
+        elements.push(document.getElementById('login'));
+        elements.push(document.getElementById('register'));
         elements.push(document.getElementById('bulletin_txt'));
         elements.push(document.getElementById('menu_btn'));
         elements.push(document.getElementById('search'));
+        elements.push(document.getElementById('rankings'));
+        elements.push(document.getElementById('macroButtons'));
+        elements.push(document.getElementById('deck_constructor'));
 
         let inputFieldElements = document.querySelectorAll('input[type=text]'); //this appearantly only works for the deck constructor search box...
         elements.push(inputFieldElements);
