@@ -82,7 +82,6 @@ $(document).ready(function() {
         };
     }
 
-
     const buttonStates = ['up', 'over', 'down'];
 
     const overrideButtonImages = [
@@ -2434,10 +2433,20 @@ $(document).ready(function() {
         return str.split(/\b/).map((word) => bannedWords.includes(word.toLowerCase()) ? getCensoredWord(word, showTitle) : word).join('');
     }
 
+    var calledOnce = false;
+
     function applyChanges() {
         if (!getConfigEntry('active') || !isOnDb()) {
             return;
         }
+
+        //calls that are needed only once
+        if (!calledOnce)
+        {
+            useCustomFont();
+        }
+
+        setOnlineUsersButton();
         hideProfilePictures();
         setBackgroundImage();
         setOkSound();
@@ -2462,18 +2471,14 @@ $(document).ready(function() {
         parseCustomArtworkUrls();
         makeCardsFullArt();
         parseSummonChants();
-        useCustomFont();
-    }
 
-    const calledOnce = false;
+        calledOnce = true;
+    }
 
     function useCustomFont()
     {
-        var useCustomFont = getConfigEntry('useCustomFont');
-
-        if (!useCustomFont || calledOnce)
-        {
-            return
+        if (!getConfigEntry('useCustomFont') || calledOnce){
+            return;
         }
 
         overrideAllFontFaceRulesSources();
@@ -2507,10 +2512,8 @@ $(document).ready(function() {
             styleSheet.insertRule("@font-face { font-family: 'Arial Rounded MT Bold';" + getCustomFontRuleSources());
             styleSheet.insertRule("@font-face { font-family: 'Kristen ITC';" + getCustomFontRuleSources());
         });
-
-        calledOnce = true;
     }
-
+    
     function getCustomFontRuleSources()
     {
         return "\nsrc: url('"+ getConfigEntry('customFontSrcEotUrl') +"');\n\
