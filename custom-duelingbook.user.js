@@ -2471,7 +2471,7 @@ $(document).ready(function() {
             styleSheet.insertRule("@font-face { font-family: 'Kristen ITC';" + getCustomFontRuleSources());
         });
 
-        document.body.style.fontFamily = "MatrixBook";
+        //document.body.style.fontFamily = "MatrixBook";
     }
 
     function getCustomFontRuleSources()
