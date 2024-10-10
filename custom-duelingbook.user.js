@@ -2438,7 +2438,6 @@ $(document).ready(function() {
         if (!getConfigEntry('active') || !isOnDb()) {
             return;
         }
-        useCustomFont();
         hideProfilePictures();
         setBackgroundImage();
         setOkSound();
@@ -2463,13 +2462,16 @@ $(document).ready(function() {
         parseCustomArtworkUrls();
         makeCardsFullArt();
         parseSummonChants();
+        useCustomFont();
     }
+
+    const calledOnce = false;
 
     function useCustomFont()
     {
         var useCustomFont = getConfigEntry('useCustomFont');
 
-        if (!useCustomFont)
+        if (!useCustomFont || calledOnce)
         {
             return
         }
@@ -2481,6 +2483,11 @@ $(document).ready(function() {
     function overrideAllFontFaceRulesSources()
     {
         const styleSheets = Array.from(document.styleSheets);
+
+        if (!styleSheets) {
+            return;
+        }
+
         styleSheets.forEach(styleSheet => {
             const cssRules = styleSheet.cssRules;
             for(var i = 0; i < cssRules.length; i++)
@@ -2500,6 +2507,8 @@ $(document).ready(function() {
             styleSheet.insertRule("@font-face { font-family: 'Arial Rounded MT Bold';" + getCustomFontRuleSources());
             styleSheet.insertRule("@font-face { font-family: 'Kristen ITC';" + getCustomFontRuleSources());
         });
+
+        calledOnce = true;
     }
 
     function getCustomFontRuleSources()
