@@ -2444,62 +2444,44 @@ $(document).ready(function() {
             return
         }
 
-        var elements = getElementsUsingUglyFonts();
-        for(var i = 0; i < elements.length; i++)
-        {
-            $(elements[i]).css('font-family', "MatrixBook");
-        }
+        overrideAllFontFaceRulesSources();
     }
 
-    function getElementsUsingUglyFonts() {
-        var elements = [];
-
-        document.querySelectorAll('*').forEach(function(element) {
-            var fontFamily = window.getComputedStyle(element).getPropertyValue('font-family');
-
-            //fonts used for the cards to be accurate:
-            //Matrix Regular Small Caps
-            //Matrix Book
-            //ITC Stone Serif Small Caps Bold
-            //ITC Stone Serif LT Italic
-            //ITC Stone Serif Semibold
-            //these shouldnt be replaced
-
-            if ((fontFamily.includes('Arial Rounded MT Bold') ||
-                fontFamily.includes('EssayCaps') ||
-                fontFamily.includes('EurostileCandySemibold') ||
-                fontFamily.includes('Kristen ITC') ||
-                fontFamily.includes('RoGSanSrfStd-Bd') ||
-                fontFamily.includes('Whitney') ||
-                fontFamily.includes('Whitney Bold') ||
-                fontFamily.includes('Andy') ||
-                fontFamily.includes('Andy Bold') ||
-                fontFamily.includes('Helvetica') ||
-                fontFamily.includes('Arial Black2') ||
-                fontFamily == 'sans serif' ||
-                fontFamily == 'Arial'
-                ) && element.innerText.trim() !== "")
+    //returns all @font-face elements excluding the ones used for the cards to ensure they stay accurate
+    function overrideAllFontFaceRulesSources()
+    {
+        const styleSheets = Array.from(document.styleSheets);
+        styleSheets.forEach(styleSheet => {
+            const cssRules = styleSheet.cssRules;
+            for(var i = 0; i < cssRules.length; i++)
             {
-                elements.push(element);
-            }
+                if (cssRules[i].cssText.startsWith('@font-face') && !(cssRules[i].cssText.includes('Matrix') || cssRules[i].cssText.includes('Stone')))
+                {
+                    var styleTxt = cssRules[i].cssText.split('src: ')[0];
 
+                    styleTxt += getCustomFontRuleSources();
+
+                    cssRules[i].style.cssText = styleTxt;
+                }
+            }
+            styleSheet.insertRule("@font-face { font-family: 'Helvetica';" + getCustomFontRuleSources());
+            styleSheet.insertRule("@font-face { font-family: 'Arial';" + getCustomFontRuleSources());
+            styleSheet.insertRule("@font-face { font-family: 'Arial Black2';" + getCustomFontRuleSources());
+            styleSheet.insertRule("@font-face { font-family: 'Arial Rounded MT Bold';" + getCustomFontRuleSources());
+            styleSheet.insertRule("@font-face { font-family: 'Kristen ITC';" + getCustomFontRuleSources());
         });
 
-        elements.push(document.getElementById('profile_username_txt'));
-        elements.push(document.getElementById('logged_in'));
-        elements.push(document.getElementById('login'));
-        elements.push(document.getElementById('register'));
-        elements.push(document.getElementById('bulletin_txt'));
-        elements.push(document.getElementById('menu_btn'));
-        elements.push(document.getElementById('search'));
-        elements.push(document.getElementById('rankings'));
-        elements.push(document.getElementById('macroButtons'));
-        elements.push(document.getElementById('deck_constructor'));
+        document.body.style.fontFamily = "MatrixBook";
+    }
 
-        let inputFieldElements = document.querySelectorAll('input[type=text]'); //this appearantly only works for the deck constructor search box...
-        elements.push(inputFieldElements);
-
-        return elements;
+    function getCustomFontRuleSources()
+    {
+        return "\nsrc: url('https://static.duelingbook.com/fonts/MatrixBook.eot');\n\
+src: url('https://static.duelingbook.com/fonts/MatrixBook.eot?#iefix') format('embedded-opentype'),\n\
+url('https://static.duelingbook.com/fonts/MatrixBook.svg#MatrixBook') format('svg'),\n\
+url('https://static.duelingbook.com/fonts/MatrixBook.ttf') format('truetype'),\n\
+url('https://static.duelingbook.com/fonts/MatrixBook.woff') format('woff'),\n\
+url('https://static.duelingbook.com/fonts/MatrixBook.woff2') format('woff2');}";
     }
 
     let customArtworkUrls = [];
