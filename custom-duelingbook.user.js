@@ -179,10 +179,40 @@ $(document).ready(function() {
                 size: 300,
                 default: 'https://github.com/killburne/custom-duelingbook/raw/master/bad-words.txt'
             },
-            replaceUglyFonts: {
-                label: 'Replace ugly fonts',
+            useCustomFont: {
+                label: 'Use Custom Font (please reload after changing this)',
                 type: 'checkbox',
                 default: true
+            },
+            customFontSrcEotUrl: {
+                label: 'Custom font eot url',
+                type: 'text',
+                size: 300,
+                default: 'https://static.duelingbook.com/fonts/MatrixBook.eot'
+            },
+            customFontSrcSvgUrl: {
+                label: 'Custom font svg url',
+                type: 'text',
+                size: 300,
+                default: 'https://static.duelingbook.com/fonts/MatrixBook.svg#MatrixBook'
+            },
+            customFontSrcTtfUrl: {
+                label: 'Custom font ttf url',
+                type: 'text',
+                size: 300,
+                default: 'https://static.duelingbook.com/fonts/MatrixBook.ttf'
+            },
+            customFontSrcWoffUrl: {
+                label: 'Custom font woff url',
+                type: 'text',
+                size: 300,
+                default: 'https://static.duelingbook.com/fonts/MatrixBook.woff'
+            },
+            customFontSrcWoff2Url: {
+                label: 'Custom font woff2 url',
+                type: 'text',
+                size: 300,
+                default: 'https://static.duelingbook.com/fonts/MatrixBook.woff2'
             },
             thinkEmoteUrl: {
                 label: 'Think Emote Url',
@@ -2408,7 +2438,7 @@ $(document).ready(function() {
         if (!getConfigEntry('active') || !isOnDb()) {
             return;
         }
-        overrideUglyFonts();
+        useCustomFont();
         hideProfilePictures();
         setBackgroundImage();
         setOkSound();
@@ -2435,11 +2465,11 @@ $(document).ready(function() {
         parseSummonChants();
     }
 
-    function overrideUglyFonts()
+    function useCustomFont()
     {
-        var replaceUglyFonts = getConfigEntry('replaceUglyFonts');
+        var useCustomFont = getConfigEntry('useCustomFont');
 
-        if (!replaceUglyFonts)
+        if (!useCustomFont)
         {
             return
         }
@@ -2470,18 +2500,16 @@ $(document).ready(function() {
             styleSheet.insertRule("@font-face { font-family: 'Arial Rounded MT Bold';" + getCustomFontRuleSources());
             styleSheet.insertRule("@font-face { font-family: 'Kristen ITC';" + getCustomFontRuleSources());
         });
-
-        //document.body.style.fontFamily = "MatrixBook";
     }
 
     function getCustomFontRuleSources()
     {
-        return "\nsrc: url('https://static.duelingbook.com/fonts/MatrixBook.eot');\n\
-src: url('https://static.duelingbook.com/fonts/MatrixBook.eot?#iefix') format('embedded-opentype'),\n\
-url('https://static.duelingbook.com/fonts/MatrixBook.svg#MatrixBook') format('svg'),\n\
-url('https://static.duelingbook.com/fonts/MatrixBook.ttf') format('truetype'),\n\
-url('https://static.duelingbook.com/fonts/MatrixBook.woff') format('woff'),\n\
-url('https://static.duelingbook.com/fonts/MatrixBook.woff2') format('woff2');}";
+        return "\nsrc: url('"+ getConfigEntry('customFontSrcEotUrl') +"');\n\
+src: url('"+ getConfigEntry('customFontSrcEotUrl') +"?#iefix') format('embedded-opentype'),\n\
+url('"+ getConfigEntry('customFontSrcSvgUrl') +"') format('svg'),\n\
+url('"+ getConfigEntry('customFontSrcTtfUrl') +"') format('truetype'),\n\
+url('"+ getConfigEntry('customFontSrcWoffUrl') +"') format('woff'),\n\
+url('"+ getConfigEntry('customFontSrcWoff2Url') +"') format('woff2');}";
     }
 
     let customArtworkUrls = [];
