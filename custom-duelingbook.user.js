@@ -2439,14 +2439,6 @@ $(document).ready(function() {
         if (!getConfigEntry('active') || !isOnDb()) {
             return;
         }
-
-        //calls that are needed only once
-        if (!calledOnce)
-        {
-            useCustomFont();
-        }
-
-        setOnlineUsersButton();
         hideProfilePictures();
         setBackgroundImage();
         setOkSound();
@@ -2471,6 +2463,24 @@ $(document).ready(function() {
         parseCustomArtworkUrls();
         makeCardsFullArt();
         parseSummonChants();
+
+        //custom stuff by reFuseN
+        //calls that are needed only once
+        if (!calledOnce)
+        {
+           useCustomFont();
+        }
+    
+        //replace ugly button icons
+        //setMenuButtons();
+        setOnlineUsersButton();
+        setPublicChatButton();
+        setPrivateChatButton();
+        setprivateChatButtonAnimation();
+        setScreenshotButton();
+        setMuteButton();
+        //setAvatarFrame();
+    
 
         calledOnce = true;
     }
@@ -2523,6 +2533,155 @@ url('"+ getConfigEntry('customFontSrcTtfUrl') +"') format('truetype'),\n\
 url('"+ getConfigEntry('customFontSrcWoffUrl') +"') format('woff'),\n\
 url('"+ getConfigEntry('customFontSrcWoff2Url') +"') format('woff2');}";
     }
+
+    function setMenuButtons()
+    {
+        const elements = document.getElementsByClassName('menu_btn');
+        const menuButtonImageUrl = "https://svgsilh.com/svg/1222107.svg";
+        
+        for (var i = 0; i < elements.length; i++)
+        {
+            var el = elements[i].getElementsByTagName('img')[0];
+            if (!el) {
+                return;
+            }
+
+            el.src = menuButtonImageUrl;
+        }
+    }
+
+    function setOnlineUsersButton()
+    {
+        const parentElement = document.getElementById('online_btn');
+        const onlineButtonImageUrl = "https://www.svgrepo.com/show/511200/users-group.svg";
+            
+        var el = parentElement.getElementsByTagName('img')[0];
+
+        if (!el) {
+              return;
+        }
+
+        el.src = onlineButtonImageUrl;
+        el.style.filter="invert(100%)";
+    }
+
+    function setPublicChatButton()
+    {
+        const parentElement = document.getElementById('chat_btn');
+        const chatButtonImageUrl = "https://www.svgrepo.com/show/510893/chat-conversation.svg";
+            
+        var el = parentElement.getElementsByTagName('img')[0];
+
+        if (!el) {
+              return;
+        }
+
+        el.src = chatButtonImageUrl;
+        el.style.filter="invert(100%)";
+    }
+
+    function setPrivateChatButton()
+    {
+        const parentElement = document.getElementById('private_btn');
+        const chatButtonImageUrl = "https://www.svgrepo.com/show/510889/chat-circle-dots.svg";
+
+        var el = parentElement.getElementsByTagName('img')[0];
+
+        if (!el) {
+              return;
+        }
+
+        el.src = chatButtonImageUrl;
+        el.style.filter="invert(100%)";
+    }
+
+    function setprivateChatButtonAnimation()
+    {
+        const parentElement = document.getElementById('private_btn_anim');
+        const chatButtonImageUrl = "https://www.svgrepo.com/show/510885/chat-circle-add.svg";
+            
+        var el = parentElement.getElementsByTagName('img')[0];
+
+        if (!el) {
+              return;
+        }
+
+        el.src = chatButtonImageUrl;
+        el.style.filter="invert(100%)";
+    }
+
+    function setScreenshotButton()
+    {
+        const parentElement = document.getElementById('screenshot_btn');
+        const screenshotButtonUrl = "https://www.svgrepo.com/show/479182/eye-of-horus.svg";
+
+        //this removes the ugly box shadow behind the button
+        document.getElementsByClassName("hidden")[0].remove();
+            
+        var el = parentElement.getElementsByTagName('img')[0];
+
+        if (!el) {
+              return;
+        }
+
+        el.src = screenshotButtonUrl;
+        el.style.filter="invert(100%)";
+    }
+
+    function setMuteButton()
+    {
+        const parentElement = document.getElementById('mute_btn');
+        const originalMuteButtonOverlay = document.getElementById('cross');
+        const muteButtonUrl = "https://www.svgrepo.com/show/511197/volume-max.svg";
+        const mutedButtonUrl = "https://www.svgrepo.com/show/511205/volume-off.svg";
+            
+        var el = parentElement.getElementsByTagName('img')[0];
+
+        if (!el) {
+              return;
+        }
+
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+            if (mutation.type === "attributes") {
+                if (window.getComputedStyle(originalMuteButtonOverlay).getPropertyValue('display') == 'none')
+                {
+                    el.src = muteButtonUrl;
+                }
+                else
+                {
+                    el.src = mutedButtonUrl;
+                }
+            }
+            });
+        });
+
+        observer.observe(originalMuteButtonOverlay, {attributes: true});
+        el.style.filter="invert(100%)";
+        setMutedButton();
+    }
+
+    function setMutedButton()
+    {
+        const parentElement = document.getElementById('cross');
+        parentElement.style.opacity = 0;
+    }
+
+    /*WIP
+    function setAvatarFrame()
+    {
+        const elements = document.getElementsByClassName('avatar_frame');
+        const frameUrl = "https://www.svgrepo.com/show/332249/border.svg";
+
+        console.log("elements:");
+        console.log(elements);
+
+        if (!elements)
+            return;
+
+        console.log("huhn" + elements.length);
+    }
+        */
 
     let customArtworkUrls = [];
     function parseCustomArtworkUrls() {
